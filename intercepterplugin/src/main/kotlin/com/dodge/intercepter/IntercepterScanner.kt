@@ -59,6 +59,22 @@ class IntercepterScanner(var project: Project, var config: IntercepterConfig) {
         }
     }
 
+    fun scanFromClassFile(root: String, file: File, destDir: File) {
+        println("IntercepterScanner root = $root")
+        if (file.absolutePath.endsWith(".class")) {
+            println("IntercepterScanner file = ${file.absolutePath}")
+            val inputStream = file.inputStream()
+            val result = insertCode(inputStream)
+            if (result.first) {
+                val name = file.absolutePath.replace(root, "")
+                val dest = File(destDir, name)
+                val code = result.second.toByteArray()
+                FileUtils.copyInputStreamToFile(code.inputStream(), dest)
+            }
+            inputStream.close()
+        }
+    }
+
 
     fun scanFromJar(jarInput: JarInput, dest: File) {
         if (dest.exists()) {

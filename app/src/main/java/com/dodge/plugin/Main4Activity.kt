@@ -13,9 +13,7 @@ class Main4Activity : AppCompatActivity() {
 
     @TestAnnotation
     fun onTestMethod(test: String) {
-
         println("kotlin method")
-
     }
 
 
